@@ -14,17 +14,71 @@ class App {
      */
     static JFrame jframe = Okno();
     static JPanel jpanel = new JPanel();
+    
     public static void main(String[] args) {
         JComponent jComponent = new mouse();
         AbstractAction abstractAction = new Proba();
         AbstractAction abstractAction2 = new colorBlue();
         /* 
-         * ПОЧЕМУТА НЕ РАБОТАЕТ ВМЕСТЕ!!
-         * ещё нужно будет фиксить
-         */
+        * ПОЧЕМУТА НЕ РАБОТАЕТ ВМЕСТЕ!!
+        * ещё нужно будет фиксить
+        */
         jframe.add(jpanel);
         // jframe.add(jComponent);
         
+        JMenuBar menuBar = new JMenuBar();
+        JMenu jMenu1 = new JMenu("Base");
+        jMenu1.add(new JMenuItem("Eshe ne pridumal"));
+        jMenu1.addSeparator();
+        JMenuItem exit = new JMenuItem("Exit", 'E');
+        exit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+
+        });
+        exit.setAccelerator(KeyStroke.getKeyStroke("ctrl E"));
+        jMenu1.add(exit);
+        menuBar.add(jMenu1);
+
+        JMenu jMenu2 = new JMenu("Color");
+        JMenuItem red = new JMenuItem("Red");
+        red.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jpanel.setBackground(Color.RED);
+            }
+            
+        });
+        JMenuItem yellow = new JMenuItem("Yellow");
+        yellow.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jpanel.setBackground(Color.YELLOW);
+            }
+
+        });
+        JMenuItem randomColor = new JMenuItem("Random color", 'R');
+        randomColor.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jpanel.setBackground(new Color((int)(Math.random() * 255), (int)(Math.random() * 255), (int)(Math.random() * 255)));
+            }
+            
+        });
+        randomColor.setAccelerator(KeyStroke.getKeyStroke("ctrl alt R"));
+        jMenu2.add(red);
+        jMenu2.add(yellow);
+        jMenu2.addSeparator();
+        jMenu2.add(randomColor);
+        menuBar.add(jMenu2);
+        jframe.setJMenuBar(menuBar);
+
         // Добавление кнопки которая меняет название окна на "Klik Klak"
         JButton jbutton = new JButton("Klik Klak");
         jbutton.addActionListener(EventHandler.create(ActionListener.class, jframe, "title", "source.text"));
@@ -66,14 +120,17 @@ class App {
         jCombokBox.addItem("3");
         jpanel.add(jCombokBox);
 
+
         // Добавление панели ввода текста логин и пароль 
         jpanel.add(new JLabel("Логин")); 
         jpanel.add(new JTextField(10));
         jpanel.add(new JLabel("Пароль"));
         jpanel.add(new JPasswordField(10));
 
+        // Создание листа с множеством строк 
+        jpanel.add(new JLabel("Множество строк"));
         JTextArea jTextArea = new JTextArea(5, 10);
-        jTextArea.setLineWrap(true);
+        jTextArea.setLineWrap(true); // Добавляет скрол бар 
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
         jpanel.add(jScrollPane);
 
@@ -98,6 +155,9 @@ class App {
         jpanel.revalidate();
     }
     
+    private static void jMenu1add(JMenuItem exit) {
+    }
+
     // Класс для определения координат mouse
     public static class mouse extends JComponent {
         private static int xCord;
